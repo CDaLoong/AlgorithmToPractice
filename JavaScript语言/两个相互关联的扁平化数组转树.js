@@ -50,36 +50,47 @@ const connArr = [
 // 查找管理的数据
 const findData = (dataArr, data) => {
     if (!dataArr || !Array.isArray(dataArr) || !data) return null;
+    // 找到数据所在对象
     const dataObj =  dataArr.find(item => Object.values(item).includes(data))
     if (!dataObj) return null;
     const resultObj = {}
     for (let prop in dataObj) {
+        // 排除当前数据
         if (dataObj[prop] === data) continue;
+        // 生成新的数据对象
         resultObj[prop] = dataObj[prop];
     }
+    // 放回当前节点数据，如果有新的数据对象就将新的数据对象也返回出去
     if (Object.keys(resultObj).length > 0) return { dataObj, resultObj };
     return { dataObj };
 }
 
-// 设置节点子节点信息
+// 设置节点子节点数据
 const traversalSetChildren = (root, rootData) => {
     if (!rootData || !root) return;
+    // 获取节点连接点信息
     const rootCoonData = findData(connArr, rootData)
     if (!rootCoonData) return;
     if (rootCoonData.resultObj) {
         const connData = rootCoonData.resultObj
+        // 根据节点连接点信息获取节点数据
         for (let prop in connData) {
             const child = findData(dataArr, connData[prop])
+            // 获取节点数据
             const childData = child.dataObj ? child.dataObj : null;
+            // 获取节点和子节点连接信息数据
             const childConnData = child.resultObj ? child.resultObj : null;
             if (childData && childConnData) {
                 for (let prop in childConnData) {
+                    // 如果有子节点连接，进入递归，查找设置其子节点数据
                     traversalSetChildren(childData, childConnData[prop])
                 }
             }
+            // 判断节点中是否存在 children 属性
             if (!root.children) {
                 root.children = []
             }
+            // 向节点的 children 属性中放入子节点信息
             root.children.push(childData)
         }
     }

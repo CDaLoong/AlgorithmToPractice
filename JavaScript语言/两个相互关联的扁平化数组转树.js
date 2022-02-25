@@ -3,11 +3,10 @@
 // 2. 任何递归程序，先写出口
 // 3. 任何一种算法，都没有优劣之分，只有是否适合的场景
 
-// 有两个数组，第一个数组内的每个对象都有两个端点属性，另一个数组内的对象存储着第一个数组内不同对象之间相连的关系，先要求根据两个数组生成之间相连的关系树，如图所示'./img/两个扁平化数组转树.png'
+// 有一个根节点和两个数组，第一个数组内的每个对象都有两个端点属性，另一个数组内的对象存储着第一个数组内不同对象之间相连的关系，先要求根据根节点和两个数组生成之间相连的关系树，如图所示'./img/两个扁平化数组转树.png'
+const A = 'A'
 const dataArr = [
     {
-        A: 'A',
-    },{
         B1: 'B1',
         B2: 'B2' 
     },{
@@ -47,3 +46,46 @@ const connArr = [
         H: 'H'
     }
 ]
+
+// 查找管理的数据
+const findData = (dataArr, data) => {
+    if (!dataArr || !Array.isArray(dataArr) || !data) return null;
+    const dataObj =  dataArr.find(item => Object.values(item).includes(data))
+    if (!dataObj) return null;
+    const resultObj = {}
+    for (let prop in dataObj) {
+        if (dataObj[prop] === data) continue;
+        resultObj[prop] = dataObj[prop];
+    }
+    if (Object.keys(resultObj).length > 0) return { dataObj, resultObj };
+    return { dataObj };
+}
+
+// 设置节点子节点信息
+const traversalSetChildren = (root, rootData) => {
+    if (!rootData || !root) return;
+    const rootCoonData = findData(connArr, rootData)
+    if (!rootCoonData) return;
+    if (rootCoonData.resultObj) {
+        const connData = rootCoonData.resultObj
+        for (let prop in connData) {
+            const child = findData(dataArr, connData[prop])
+            const childData = child.dataObj ? child.dataObj : null;
+            const childConnData = child.resultObj ? child.resultObj : null;
+            if (childData && childConnData) {
+                for (let prop in childConnData) {
+                    traversalSetChildren(childData, childConnData[prop])
+                }
+            }
+            if (!root.children) {
+                root.children = []
+            }
+            root.children.push(childData)
+        }
+    }
+}
+
+const root = {};
+
+traversalSetChildren(root, A)
+console.log(root)

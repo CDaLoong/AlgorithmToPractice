@@ -31,10 +31,10 @@ B.right = E;
 C.left = F;
 C.right = G;
 
-// 判断某个对象是否在二叉树中
+// 判断某个对象是否在二叉树中，队列思想
 const scopeSearch = (rootList, target) => {
     if (!rootList || !Array.isArray(rootList) || rootList.length === 0) return false;
-    const childList = [];
+    const childList = []; // 当前层所有节点的子节点都在队列中
     // for (let i = rootList.length; i--;) { // 乱序搜
     //     console.log(rootList[i].value);
     //     if (rootList[i] && rootList[i] === target) return true;

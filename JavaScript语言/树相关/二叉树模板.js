@@ -31,12 +31,33 @@ B.right = E;
 C.left = F;
 C.right = G;
 
-// 判断某个对象是否在二叉树中
-const deepSearch = (root, target) => {
-    if (!root) return false;
-    if (root === target) return true;
-    const left = deepSearch(root.left, target);
-    const right = deepSearch(root.right, target);
-    return left || right;
-}
-console.log(deepSearch(A, F))
+
+// const root = {
+//     value: 'A',
+//     left: {
+//         value: 'C',
+//         left: {
+//             value: 'F',
+//             left: null,
+//             right: null
+//         },
+//         right: {
+//             value: 'G',
+//             left: null,
+//             right: null
+//         }
+//     },
+//     right: {
+//         value: 'B',
+//         left: {
+//             value: 'D',
+//             left: null,
+//             right: null
+//         },
+//         right: {
+//             value: 'E',
+//             left: null,
+//             right: null
+//         }
+//     }
+// }

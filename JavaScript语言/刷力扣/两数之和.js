@@ -27,15 +27,11 @@
  */
 const twoSum = function(nums, target) {
     if(!Array.isArray(nums) || nums.length === 0 || isNaN(target)) return [];
-    for(let i = 0; i < nums.length / 2; i++) {
-        for(let j = nums.length - 1; j > nums.length / 2 - 1; j-- ) {
-            if (getSum(nums[i] + nums[j]) === target) return [i, j]
+    for(let i = 0; i < nums.length - 1; i++) {
+        for(let j = nums.length - 1; j > i; j-- ) {
+            if (nums[i] + nums[j] === target) return [i, j]
         }
     }
 };
-
-const getSum = function(a, b) {
-    return a + b;
-}
 
 console.log(twoSum([2,7,11,15], 9))

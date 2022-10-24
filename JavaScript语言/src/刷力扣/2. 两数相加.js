@@ -19,3 +19,12 @@
 // 输入：l1 = [9,9,9,9,9,9,9], l2 = [9,9,9,9]
 // 输出：[8,9,9,9,0,0,0,1]
 
+
+// const l1 = [2, 4, 3], l2 = [5, 6, 4]
+const l1 = [9,9,9,9,9,9,9], l2 = [9,9,9,9]
+
+const func = (l1, l2) => {
+    if (!Array.isArray(l1) || !Array.isArray(l2) || l1.length <= 0 || l2.length <= 0) return
+    return (+l1.reverse().join('') + +l2.reverse().join('')).toString().split('').map(i => Number(i)).reverse()
+}
+console.log(func(l1, l2))

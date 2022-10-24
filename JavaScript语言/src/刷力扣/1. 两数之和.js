@@ -21,24 +21,57 @@
 // 输出：[0,1]
 
 /**
- * @param {number[]} nums
- * @param {number} target
+ * @param {number[]} nums 数据
+ * @param {number} target 和
+ * @param {number} num 几数之和
  * @return {number[]}
  */
-const twoSum = function(nums, target) {
-    if(!Array.isArray(nums) || nums.length === 0 || isNaN(target)) return [];
-    for(let i = 0; i < nums.length - 1; i++) {
-        for(let j = nums.length - 1; j > i; j-- ) {
-            if (nums[i] + nums[j] === target) return [i, j]
+// const twoSum = function(nums, target) {
+//     if(!Array.isArray(nums) || nums.length === 0 || isNaN(target)) return [];
+//     for(let i = 0; i < nums.length - 1; i++) {
+//         for(let j = nums.length - 1; j > i; j-- ) {
+//             if (nums[i] + nums[j] === target) return [i, j]
+//         }
+//     }
+// };
+
+const sumNum = (nums, target, num) => {
+    if(!Array.isArray(nums) || target <= 0 || num <= 0 || nums.length < num) return [];
+    const results = []
+    const length = num
+    const numsClone = JSON.parse(JSON.stringify(nums))
+    let indexNums = 0
+    const sum = (nums, target, num) => {
+        if(!Array.isArray(nums) || target <= 0 || num <= 0 || nums.length < num) return;
+        const n = nums[0]
+        if (target - n < 0) return;
+        if (target - n === 0 && num === 1) {
+            const index = numsClone.findIndex(item => item === n)
+            return [ index + indexNums ]
+        }
+        if (target - n > 0 && num > 1) {
+            nums.shift()
+            const arr = sum(nums, target - n, num - 1)
+            if (Array.isArray(arr)) {
+                const index = numsClone.findIndex(item => item === n)
+                arr.push(index + indexNums)
+                if (arr.length === length) {
+                    results.push(arr)
+                    numsClone.shift()
+                    if (numsClone.length >= length) {
+                        indexNums++
+                        sum(numsClone, target, length)
+                    }
+                } else {
+                    return arr
+                }
+            }
         }
     }
-};
-
-const twoSun2 = (nums,target) => {
-    if(!Array.isArray(nums) || nums.length === 0 || isNaN(target)) return [];
-    
+    sum(nums, target, num)
+    return results
 }
 
-console.log(twoSum([2,7,11,15], 9))
+console.log(sumNum([2,7,11,15, 2], 9, 2))
 
 

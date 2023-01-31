@@ -37,3 +37,29 @@ P     I
 s 由英文字母（小写和大写）、',' 和 '.' 组成
 1 <= numRows <= 1000
  */
+const s = "PA";
+const func = (s, numRows) => {
+  if (typeof s !== "string" || s.length === 0) return "";
+  if (numRows <= 1) return s;
+  const strObj = {};
+  let state = false;
+  let n = 0,
+    m = 0;
+  let index = 0;
+  for (let i = 0; i < s.length; i++) {
+    if (n - m === i) {
+      n += numRows;
+      m++;
+      state = !state;
+    }
+    !strObj[index] && (strObj[index] = "");
+    strObj[index] += s[i];
+    index += state ? 1 : -1;
+  }
+  let str = "";
+  for (let i = 0; i < numRows; i++) {
+    str += strObj[i] || "";
+  }
+  return str;
+};
+console.log(func(s, 3));

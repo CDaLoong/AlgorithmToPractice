@@ -36,42 +36,43 @@
 // };
 
 const sumNum = (nums, target, num) => {
-    if(!Array.isArray(nums) || target <= 0 || num <= 0 || nums.length < num) return [];
-    const results = []
-    const length = num
-    const numsClone = JSON.parse(JSON.stringify(nums))
-    let indexNums = 0
-    const sum = (nums, target, num) => {
-        if(!Array.isArray(nums) || target <= 0 || num <= 0 || nums.length < num) return;
-        const n = nums[0]
-        if (target - n < 0) return;
-        if (target - n === 0 && num === 1) {
-            const index = numsClone.findIndex(item => item === n)
-            return [ index + indexNums ]
-        }
-        if (target - n > 0 && num > 1) {
-            nums.shift()
-            const arr = sum(nums, target - n, num - 1)
-            if (Array.isArray(arr)) {
-                const index = numsClone.findIndex(item => item === n)
-                arr.push(index + indexNums)
-                if (arr.length === length) {
-                    results.push(arr)
-                    numsClone.shift()
-                    if (numsClone.length >= length) {
-                        indexNums++
-                        sum(numsClone, target, length)
-                    }
-                } else {
-                    return arr
-                }
-            }
-        }
+  if (!Array.isArray(nums) || target <= 0 || num <= 0 || nums.length < num)
+    return [];
+  const results = [];
+  const length = num;
+  const numsClone = JSON.parse(JSON.stringify(nums));
+  let indexNums = 0;
+  const sum = (nums, target, num) => {
+    if (!Array.isArray(nums) || target <= 0 || num <= 0 || nums.length < num)
+      return;
+    const n = nums[0];
+    if (target - n < 0) return;
+    if (target - n === 0 && num === 1) {
+      const index = numsClone.findIndex((item) => item === n);
+      return [index + indexNums];
     }
-    sum(nums, target, num)
-    return results
-}
+    if (target - n > 0 && num > 1) {
+      nums.shift();
+      // 递归挨个使用target去减，找到最后为0的下标
+      const arr = sum(nums, target - n, num - 1);
+      if (Array.isArray(arr)) {
+        const index = numsClone.findIndex((item) => item === n);
+        arr.push(index + indexNums);
+        if (arr.length === length) {
+          results.push(arr);
+          numsClone.shift();
+          if (numsClone.length >= length) {
+            indexNums++;
+            sum(numsClone, target, length);
+          }
+        } else {
+          return arr;
+        }
+      }
+    }
+  };
+  sum(nums, target, num);
+  return results;
+};
 
-console.log(sumNum([2,7,11,15, 2], 9, 2))
-
-
+console.log(sumNum([2, 7, 11, 15, 2], 20, 3));

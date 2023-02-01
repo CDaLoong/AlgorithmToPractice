@@ -31,7 +31,7 @@ const func = (s) => {
     if (num > s.length - i) break;
     let index = s.lastIndexOf(s[i]),
       sl = "";
-    while (index !== -1 && index !== i) {
+    while (index > i) {
       sl = s.slice(i, index + 1);
       if (sl.length % 2 === 0) {
         if (check(sl.slice(0, sl.length / 2), sl.slice(sl.length / 2))) {

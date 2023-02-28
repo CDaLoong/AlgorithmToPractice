@@ -29,3 +29,24 @@
 
 进阶：你能不将整数转为字符串来解决这个问题吗？
  */
+const x = 120;
+
+const func = (x) => {
+  if (typeof x !== "number" || x < 0 || (x % 10 === 0 && x !== 0)) return false;
+  if (x < 10) return true;
+  x = String(x).split("");
+  if (x.length % 2 === 0) {
+    // 偶数个数字
+    for (let i = 0; i < x.length / 2; i++) {
+      if (x[i] !== x[x.length - 1 - i]) return false;
+    }
+  } else {
+    // 奇数个数字x
+    for (let i = 0; i < (x.length - 1) / 2; i++) {
+      if (x[i] !== x[x.length - 1 - i]) return false;
+    }
+  }
+  return true;
+};
+
+console.log(func(x));
